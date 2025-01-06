@@ -110,7 +110,7 @@ def get_position(image_size, element_width, element_height, position):
 
 # Hàm mở liên kết Donate
 def open_donate():
-    webbrowser.open("https://www.vietqr.io")  # Thay bằng link donate của bạn
+    webbrowser.open("https://tip4me.vercel.app")  # Thay bằng link donate của bạn
 
 # Giao diện người dùng
 root = Tk()
@@ -162,7 +162,7 @@ Button(root, text="Bắt đầu đóng dấu", command=apply_watermark).grid(row
 Button(root, text="Donate", command=open_donate, bg="orange", fg="white").grid(row=9, column=1, pady=10)
 
 # Tên tác giả
-Label(root, text="Tác giả: Nguyễn Văn A", fg="blue").grid(row=10, column=1, pady=10)
+Label(root, text="Tác giả: khahdihdz", fg="blue").grid(row=10, column=1, pady=10)
 
 status_label = Label(root, text="")
 status_label.grid(row=11, column=0, columnspan=3)
