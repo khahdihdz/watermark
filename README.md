@@ -21,25 +21,25 @@ import webbrowser
 from tkinter import Tk, filedialog, Label, Button, Entry, StringVar, OptionMenu, colorchooser
 from PIL import Image, ImageDraw, ImageFont
 
-# Hàm chọn thư mục đầu vào
+// Hàm chọn thư mục đầu vào
 def select_folder(var):
     folder = filedialog.askdirectory()
     if folder:
         var.set(folder)
 
-# Hàm chọn file ảnh đóng dấu
+// Hàm chọn file ảnh đóng dấu
 def select_image():
     file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")])
     if file_path:
         watermark_image_var.set(file_path)
 
-# Hàm chọn màu chữ
+// Hàm chọn màu chữ
 def choose_color():
     color_code = colorchooser.askcolor(title="Chọn màu chữ")
     if color_code:
         color_var.set(color_code[1])
 
-# Hàm áp dụng watermark
+// Hàm áp dụng watermark
 def apply_watermark():
     input_folder = input_folder_var.get()
     output_folder = output_folder_var.get()
@@ -63,43 +63,43 @@ def apply_watermark():
                 img_path = os.path.join(input_folder, filename)
                 img = Image.open(img_path).convert("RGBA")
 
-                # Tạo layer đóng dấu
+                // Tạo layer đóng dấu
                 txt_layer = Image.new("RGBA", img.size, (255, 255, 255, 0))
                 draw = ImageDraw.Draw(txt_layer)
 
                 if text:
-                    # Tính toán kích thước văn bản
+                    // Tính toán kích thước văn bản
                     bbox = draw.textbbox((0, 0), text, font=font)
                     text_width = bbox[2] - bbox[0]
                     text_height = bbox[3] - bbox[1]
 
-                    # Lấy vị trí đóng dấu
+                    // Lấy vị trí đóng dấu
                     x, y = get_position(img.size, text_width, text_height, position)
 
-                    # Xử lý màu RGBA
+                    // Xử lý màu RGBA
                     rgba_color = tuple(int(color[i:i+2], 16) for i in (1, 3, 5)) + (opacity,)
                     draw.text((x, y), text, font=font, fill=rgba_color)
 
                 if watermark_image:
-                    # Thêm watermark hình ảnh
+                    // Thêm watermark hình ảnh
                     watermark = Image.open(watermark_image).convert("RGBA")
                     watermark_width, watermark_height = watermark.size
 
-                    # Lấy vị trí đóng dấu
+                    // Lấy vị trí đóng dấu
                     x, y = get_position(img.size, watermark_width, watermark_height, position)
 
-                    # Tạo lớp mờ
+                    // Tạo lớp mờ
                     watermark = watermark.resize((watermark_width, watermark_height), Image.Resampling.LANCZOS)
                     watermark_layer = Image.new("RGBA", watermark.size, (255, 255, 255, opacity))
                     watermark = Image.alpha_composite(watermark, watermark_layer)
 
-                    # Dán watermark lên ảnh
+                    // Dán watermark lên ảnh
                     txt_layer.paste(watermark, (x, y), mask=watermark)
 
-                # Kết hợp lớp văn bản và ảnh gốc
+                // Kết hợp lớp văn bản và ảnh gốc
                 combined = Image.alpha_composite(img, txt_layer).convert("RGB")
 
-                # Lưu ảnh đã đóng dấu
+                // Lưu ảnh đã đóng dấu
                 output_path = os.path.join(output_folder, filename)
                 combined.save(output_path, "JPEG")
         
@@ -107,7 +107,7 @@ def apply_watermark():
     except Exception as e:
         status_label.config(text=f"Lỗi: {e}", fg="red")
 
-# Hàm tính toán vị trí của watermark
+// Hàm tính toán vị trí của watermark
 def get_position(image_size, element_width, element_height, position):
     img_width, img_height = image_size
     if position == "Trung tâm":
@@ -122,15 +122,15 @@ def get_position(image_size, element_width, element_height, position):
         return img_width - element_width - 10, img_height - element_height - 10
     return 0, 0
 
-# Hàm mở liên kết Donate
+// Hàm mở liên kết Donate
 def open_donate():
-    webbrowser.open("https://tip4me.vercel.app")  # Thay bằng link donate của bạn
+    webbrowser.open("https://tip4me.vercel.app")  // Thay bằng link donate của bạn
 
-# Giao diện người dùng
+// Giao diện người dùng
 root = Tk()
 root.title("Phần mềm đóng dấu ảnh hàng loạt")
 
-# Biến lưu trữ
+// Biến lưu trữ
 input_folder_var = StringVar()
 output_folder_var = StringVar()
 text_var = StringVar()
@@ -140,7 +140,7 @@ opacity_var = StringVar(value="128")
 position_var = StringVar(value="Trung tâm")
 watermark_image_var = StringVar()
 
-# Giao diện chọn thư mục và cài đặt
+// Giao diện chọn thư mục và cài đặt
 Label(root, text="Thư mục chứa ảnh:").grid(row=0, column=0, sticky="w")
 Entry(root, textvariable=input_folder_var, width=50).grid(row=0, column=1)
 Button(root, text="Chọn", command=lambda: select_folder(input_folder_var)).grid(row=0, column=2)
@@ -172,10 +172,10 @@ Button(root, text="Chọn", command=select_image).grid(row=7, column=2)
 
 Button(root, text="Bắt đầu đóng dấu", command=apply_watermark).grid(row=8, column=1, pady=10)
 
-# Nút Donate
+// Nút Donate
 Button(root, text="Donate", command=open_donate, bg="orange", fg="white").grid(row=9, column=1, pady=10)
 
-# Tên tác giả
+// Tên tác giả
 Label(root, text="Tác giả: Nguyễn Văn A", fg="blue").grid(row=10, column=1, pady=10)
 
 status_label = Label(root, text="")
